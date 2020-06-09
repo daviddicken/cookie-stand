@@ -39,9 +39,9 @@ Lima     2-16
 
 */
 //debugger;
-//var mainHoursArray = ["6am: " , "7am:  " , "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: "];
+var mainHoursArray = ["6am: " , "7am:  " , "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: "];
 //var mainHoursArray = [10, 5, 1, 1, 0, 12];
-var testArray = [10, 5, 1, 1, 0, 12];
+
 
 //var mainHoursArray = [6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7];
 
@@ -87,7 +87,8 @@ var lima =
   avgCookie : 4.6
 }
 //makeList(mainHoursArray, lima.minCust, lima.maxCust, lima.avgCookie);
-makeList(testArray, lima);
+var testArray = [10, 5, 1, 1, 0, 12];
+makeList(mainHoursArray, lima);
 
 function makeList(hoursArray, object )
 {
@@ -102,14 +103,17 @@ console.log("hoursArray..." + hoursArray);
   var cookieString;
   //need hours array
   //need hourlyCustomer Array
-  var customerArray = getHourlyCust(hoursArray, minCustomer, maxCustomer);
-console.log("customerArray..." + customerArray)
+  var customerArray = getHourlyCust(testArray, minCustomer, maxCustomer);
+  //var customerArray = getHourlyCust(hoursArray, minCustomer, maxCustomer);
+console.log("customerArray...108  " + customerArray);
   //need cookies per hour
+console.log("testArray....110   " + testArray);
   var cookiesArray = cookiesPerHour(testArray, average);
+console.log("cookiesArray....112   " + cookiesArray);
   //need cookie total
   getCookieTotal(cookiesArray);
   //put li items on sales page
-console.log("cookiesArray..." + cookiesArray);
+console.log("cookiesArray...114  " + cookiesArray);
   //create each line and target ul in sales.html
   for(var i = 0; i < hoursArray.length; i++)
   {
@@ -172,17 +176,20 @@ console.log("hoursArr..typeof..." + typeof(hoursArr));
   function cookiesPerHour(customers, avg)
   {
 //debugger;
-console.log("customersArry im cookies per hour..." + customers);
-console.log("avg....." + avg);
-console.log("typeof...avg..." + typeof(avg));
-console.log("typeof...customers..." + typeof(customers[0]));
+//console.log("length of customer   " + customers.length);
+// console.log("customersArry im cookies per hour..." + customers);
+// console.log("avg....." + avg);
+// console.log("typeof...avg..." + typeof(avg));
+// console.log("typeof...customers..." + typeof(customers[0]));
     var cookiesArray = customers[0];
-console.log("cookiesArray...after first math.ceil..." + cookiesArray);
+    var tempNum;
+//console.log("cookiesArray...after first math.ceil..." + cookiesArray);
     for (var i = 1; i < customers.length; i++)
     {
   //console.log("customers[i]......." + customers[i]);
-      var tempNum = customers[i] * avg;
-      cookiesArray = cookiesArray , tempNum;
+      tempNum = customers[i];
+      // * avg;
+      cookiesArray = [cookiesArray , tempNum];
   //console.log("cookiesArray....." + cookiesArray);
     }
     return cookiesArray;
