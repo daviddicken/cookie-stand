@@ -44,21 +44,57 @@ var seattle =
   store : "Seattle",
   minCust : 23,
   maxCust : 65,
-  avgCookie : 0,
+  avgCookie : 6.3,
   hour : ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ],
   hourlyCookies : [],
   totalCookies : 0,
+  
+  randomCust : function(min, max)
+  {
+    var randomNum = Math.floor(Math.random() * (max - min) + min);
+    return randomNum;
+  },
 
+  getHourlyCust : function(hours, min, max)
+  {
+    var custPerhour;
+
+    for(i = 0; i < hours.length - 1; i++)
+    {
+
+    }
+
+
+  }
 
   
 }
 
 // function that takes a min number and a max number and generates a ramdom number between the two numbers
-function randomCookie(min, max)
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function randomCustomer(min, max)
   {
-    var randomNum = Math.floor(Math.random() * (max -min) + min);
-    console.log(`Number....... + ${randomNum}`);
-    
+    var randomNum = Math.floor(Math.random() * (max - min) + min);
+    return randomNum;
   }
 
-  randomCookie(2, 4);
+  //function for generating a customer amount for everyhour
+  var hoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
+
+  function getHourlyCust(hours, min, max)
+  {
+//debugger;
+    var custPerhour = [randomCustomer(min, max)];
+
+    for(var i = 1; i < (hours.length - 1); i++)
+    {
+      var randNum = randomCustomer(min, max);
+      custPerhour = `${custPerhour}, ${randNum}`;
+    }
+
+    return custPerhour;
+  }
+
+  var test = getHourlyCust(hoursArray, 2, 10);
+
+  console.log(test);
