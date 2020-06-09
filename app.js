@@ -45,28 +45,9 @@ var seattle =
   minCust : 23,
   maxCust : 65,
   avgCookie : 6.3,
-  hour : ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ],
-  hourlyCookies : [],
-  totalCookies : 0,
-  
-  randomCust : function(min, max)
-  {
-    var randomNum = Math.floor(Math.random() * (max - min) + min);
-    return randomNum;
-  },
-
-  getHourlyCust : function(hours, min, max)
-  {
-    var custPerhour;
-
-    for(i = 0; i < hours.length - 1; i++)
-    {
-
-    }
-
-
-  }
-
+  hours : ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ],
+  //hourlyCookies : [],
+  //totalCookies : 0,
   
 }
 
@@ -79,14 +60,14 @@ function randomCustomer(min, max)
   }
 
   //function for generating a customer amount for everyhour
-  var hoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
+  // var hoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
 
-  function getHourlyCust(hours, min, max)
+  function getHourlyCust(hoursArr, min, max)
   {
-//debugger;
+
     var custPerhour = [randomCustomer(min, max)];
 
-    for(var i = 1; i < (hours.length - 1); i++)
+    for(var i = 1; i < (hoursArr.length - 1); i++)
     {
       var randNum = randomCustomer(min, max);
       custPerhour = `${custPerhour}, ${randNum}`;
@@ -95,6 +76,37 @@ function randomCustomer(min, max)
     return custPerhour;
   }
 
-  var test = getHourlyCust(hoursArray, 2, 10);
+  
+  //function to figure out coockies per hour
+  //need to take random customer array and each index multiply by avg coockie per customer
+  // then round that number up to the nearest whole number 
+  // and save in a array for cookies
+  //https://pawelgrzybek.com/rounding-and-truncating-numbers-in-javascript/
 
-  console.log(test);
+  function cookiesPerHour(customers, avg)
+  {
+    var cookiesArray = Math.ceil(`${customers[0]}` * avg);
+
+    for (var i = 1; i < customers.length; i++)
+    {
+      var tempNum = Math.ceil(customers[i] * avg);
+      cookiesArray = `${cookiesArray}, ${tempNum}`;
+    }
+    return cookiesArray;
+  }
+// var testArray = [10, 5, 1, 1, 0, 12];
+// var testAvg = 2.2;
+
+// var arrayreturned = cookiesPerHour(testArray, testAvg);
+// console.log(arrayreturned);
+
+function getCookieTotal(cookiesArr)
+{
+  var total = 0
+
+  for(var i = 0; i < cookiesArr.length; i++)
+  {
+    total = total + cookiesArr[i];
+  }
+  return total;
+}
