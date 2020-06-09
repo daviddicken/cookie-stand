@@ -39,18 +39,70 @@ Lima     2-16
 
 */
 
+var mainHoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
+
+
+//====================== OBJECTS =========================================
 var seattle =
 {
   store : "Seattle",
   minCust : 23,
   maxCust : 65,
-  avgCookie : 6.3,
-  hours : ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ],
-  //hourlyCookies : [],
-  //totalCookies : 0,
+  avgCookie : 6.3
+}
+
+var tokyo =
+{
+  store : "Tokyo",
+  minCust : 3,
+  maxCust : 24,
+  avgCookie : 1.2
+}
+
+var dubai =
+{
+  store : "Dubai",
+  minCust : 11,
+  maxCust : 38,
+  avgCookie : 3.7
+}
+
+var paris =
+{
+  store : "Paris",
+  minCust : 20,
+  maxCust : 38,
+  avgCookie : 2.3
+}
+
+var lima =
+{
+  store : "Lima",
+  minCust : 2,
+  maxCust : 16,
+  avgCookie : 4.6
+}
+//makeList(mainHoursArray, lima.minCust, lima.maxCust, lima.avgCookie);
+makeList(mainHoursArray, lima);
+//function makeList(hoursArray, min, max, average, )
+function makeList(hoursArray, object )
+{
+  var minCustomer = object.minCust;
+  var maxCustomer = object.maxCust;
+  var average = object.avgCookie;
+  //need hours array
+  //need hourlyCustomer Array
+  customerArray = getHourlyCust(hoursArray, minCustomer, maxCustomer);
+  //need cookies per hour
+  cookiesArray = cookiesPerHour(customerArray, average);
+  //need cookie total
+  getCookieTotal(cookiesArr);
+  //put li items on sales page
   
 }
 
+
+//======================= Functions ======================================
 // function that takes a min number and a max number and generates a ramdom number between the two numbers
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function randomCustomer(min, max)
@@ -59,9 +111,8 @@ function randomCustomer(min, max)
     return randomNum;
   }
 
-  //function for generating a customer amount for everyhour
-  var hoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
-
+  //function for generating a customer amount array for everyhour
+  //pass in hours array, min customer, max customer
   function getHourlyCust(hoursArr, min, max)
   {
 
@@ -76,11 +127,12 @@ function randomCustomer(min, max)
     return custPerhour;
   }
 
-  var testVar =getHourlyCust(hoursArray, 2, 10);
-  console.log(testVar);
+  // var testVar =getHourlyCust(hoursArray, 2, 10);
+  // console.log(testVar);
   
-  //function to figure out coockies per hour
-  //need to take random customer array and each index multiply by avg coockie per customer
+
+  //function to figure out cookies per hour
+  //need to take random customer array and each index multiply by avg cookie per customer
   // then round that number up to the nearest whole number 
   // and save in a array for cookies
   //https://pawelgrzybek.com/rounding-and-truncating-numbers-in-javascript/
@@ -113,12 +165,3 @@ function getCookieTotal(cookiesArr)
   return total;
 }
 
-function makeList()
-{
-  //need hours array
-  //need hourlyCookies Array
-  //need cookie total
-  //get an array to work with
-  //put li items on sales page
-  //
-}
