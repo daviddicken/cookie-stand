@@ -60,7 +60,7 @@ function randomCustomer(min, max)
   }
 
   //function for generating a customer amount for everyhour
-  // var hoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
+  var hoursArray = ["6am: ", "7am:  ", "8am:  ", "9am; ", "10am:  ", "11am:  ", "12pm:  ", "1pm:  ", "2pm:  ", "3pm:  ", "4pm:  ", "5pm:  ", "6pm:  ","7pm: ","Total: " ];
 
   function getHourlyCust(hoursArr, min, max)
   {
@@ -76,6 +76,8 @@ function randomCustomer(min, max)
     return custPerhour;
   }
 
+  var testVar =getHourlyCust(hoursArray, 2, 10);
+  console.log(testVar);
   
   //function to figure out coockies per hour
   //need to take random customer array and each index multiply by avg coockie per customer
@@ -109,4 +111,14 @@ function getCookieTotal(cookiesArr)
     total = total + cookiesArr[i];
   }
   return total;
+}
+
+function makeList()
+{
+  //need hours array
+  //need hourlyCookies Array
+  //need cookie total
+  //get an array to work with
+  //put li items on sales page
+  //
 }
