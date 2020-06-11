@@ -1,8 +1,44 @@
+
+body{
+  background-color: salmon;
+}
+
+#index h1{ 
+  text-align: center;
+}
+main > section{
+  padding-left: 70px;
+
+}
+
+main > section > img{         
+  display: inline;
+ 
+}
+main > img{
+  border: solid black 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+ul{
+  display: inline;
+}
+#city{
+  text-decoration: underline;
+}
+
+/* ============= Sales HTML ========== */
 table{
+  background-color: whitesmoke;
   border: solid black 2px;
   border-collapse: collapse;
 }
-th, td{
-  border: black 1px;
+td, th{
+
+  border: solid black 1px;
   padding: 5px;
+  text-align: right;
 }
