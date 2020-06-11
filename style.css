@@ -23,6 +23,12 @@ main > img{
   width: 50%;
 }
 
+ul{
+  display: inline;
+}
+#city{
+  text-decoration: underline;
+}
 
 /* ============= Sales HTML ========== */
 table{
