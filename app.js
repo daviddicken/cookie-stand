@@ -8,6 +8,60 @@ var lima = new Store("Lima", 2, 16, 4.6);
 var tokyo = new Store("Tokyo", 3, 24, 1.2);
 
 Store.prototype.tableData = tableData;
+Store.prototype.newStore = newStoreForm;
+
+//=============================== Working on loading form =======================================
+var newStoreForm = document.getElementById(storeForm);
+newStoreForm = document.addEventListener('submit', function newStore(event)
+{
+event.preventDefault();
+
+var theEvent = event;
+var theForm = theEvent.target;
+var storeInput = theForm.storeName;
+var minCustInput = theForm.minCustomer;
+var maxCustInput = theForm.maxCustomer;
+var avgCookieInput = theForm.avgCookie;
+
+var storeValue = storeInput.value;
+var minCustValue = minCustInput.value;
+var maxCustValue = maxCustInput.value;
+var avgCookieValue = avgCookieInput.value;
+
+//console.log("outputs...." , storeValue);
+//console.log(storeValue, minCustValue, maxCustValue, avgCookieValue);
+var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
+
+var table = document.getElementById('store table');
+  table.innerHTML = '';
+  tableHeader();
+  seattle.tableData();
+  tokyo.tableData();
+  dubai.tableData();
+  paris.tableData();
+  lima.tableData();
+  formStore.tableData();
+  hourlyTotal();
+
+});
+
+function rebuildTable()
+{
+  var table = document.getElementById('store table');
+  table.innerHTML = '';
+  tableHeader();
+  seattle.tableData();
+  tokyo.tableData();
+  dubai.tableData();
+  paris.tableData();
+  lima.tableData();
+  formStore.tableData();
+  hourlyTotal();
+
+}
+
+
+
 
 //================== Contructors ====================================================
 function Store(store, minCust, maxCust, avgCookie)
@@ -24,7 +78,7 @@ function tableData() //function for filling table with cookie data
   var cookieTotal = 0;
   var tempCookie = 0;
   var table = document.getElementById("store table");
-  var dataRow = document.createElement("tr");
+  var dataRow = document.createElement("tr");                     
   var dataCell = document.createElement("td");
   dataCell.textContent = this.store;
   dataRow.appendChild(dataCell);
