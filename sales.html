@@ -3,6 +3,7 @@
 <head>
   <title>Sales</title>
   <link href="style.css" type="text/css" rel="stylesheet">
+  <link href='reset.css' type='text/css'>
 </head>
 <body >
   <nav>
@@ -10,8 +11,27 @@
   </nav>
   <h1>Sales</h1>
   <h2>Cookies sold per hour/per store:</h2>
-  <table id="store table"></table>
+<!-- 
+  ==================================== Store Table =================================== -->
+  <table id="storeTable"></table>
 
+    <form id='storeForm'>
+      <feildset>
+        <legend>New Store</legend>
+        <label for="storeName">Store's Name</label>
+        <input type="text" name="storeName"><br>
+        
+        <label for="minCustomer">Min Customers</label>
+        <input type="number" name="minCustomer"><br>
+        
+        <label type="maxCustomer">Max Customers</label>
+        <input type="number" name="maxCustomer"><br>
+       
+        <label for="avgCookie">Avg Cookies per Customer</label>
+        <input type="number" name="avgCookie"><br>
+      </feildset>
+      <button>Submit</button>
+    </form>
   
 </body>
 <script src="app.js"></script>
