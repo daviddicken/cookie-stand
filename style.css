@@ -38,7 +38,36 @@ table{
 }
 td, th{
 
-  border: solid black 1px;
+  border: 2px solid black;
   padding: 5px;
-  text-align: right;
+  text-align: right;  
 }
+form{
+  border: 5px solid black;
+  width: 600px;
+  margin: 10px auto;
+  float: left;
+}
+fieldset{
+  border: 2px solid black;
+  width: 800px;
+  padding: 5px;
+  
+}
+legend{
+  border: 1px solid black;
+  padding: 5px;
+}
+form input{
+  padding: 5px;
+  
+}
+label{
+  float: left
+  text-align: right;
+
+}
+button{
+  float: right;
+}
+

@@ -1,5 +1,6 @@
 'use strict'
 
+var allStores = [];
 var storeHours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm","4pm", "5pm", "6pm", "7pm"];
 var seattle = new Store("Seattle", 23, 65, 6.5);
 var dubai = new Store("Dubai", 11, 38, 3.7);
@@ -10,15 +11,16 @@ var tokyo = new Store("Tokyo", 3, 24, 1.2);
 Store.prototype.tableData = tableData;
 Store.prototype.newStore = newStoreForm;
 
-//=============================== Working on loading form =======================================
+//========================= Loads new store to table on button click =================
+
 var newStoreForm = document.getElementById(storeForm);
 newStoreForm = document.addEventListener('submit', function newStore(event)
 {
 event.preventDefault();
 
-var theEvent = event;
-var theForm = theEvent.target;
-var storeInput = theForm.storeName;
+var theEvent = event;                     // sending event to a variable to be processed
+var theForm = theEvent.target;            // grabs data that was input
+var storeInput = theForm.storeName;       
 var minCustInput = theForm.minCustomer;
 var maxCustInput = theForm.maxCustomer;
 var avgCookieInput = theForm.avgCookie;
@@ -28,40 +30,10 @@ var minCustValue = minCustInput.value;
 var maxCustValue = maxCustInput.value;
 var avgCookieValue = avgCookieInput.value;
 
-//console.log("outputs...." , storeValue);
-//console.log(storeValue, minCustValue, maxCustValue, avgCookieValue);
 var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
 
-var table = document.getElementById('store table');
-  table.innerHTML = '';
-  tableHeader();
-  seattle.tableData();
-  tokyo.tableData();
-  dubai.tableData();
-  paris.tableData();
-  lima.tableData();
-  formStore.tableData();
-  hourlyTotal();
-
+rebuildTable()
 });
-
-function rebuildTable()
-{
-  var table = document.getElementById('store table');
-  table.innerHTML = '';
-  tableHeader();
-  seattle.tableData();
-  tokyo.tableData();
-  dubai.tableData();
-  paris.tableData();
-  lima.tableData();
-  formStore.tableData();
-  hourlyTotal();
-
-}
-
-
-
 
 //================== Contructors ====================================================
 function Store(store, minCust, maxCust, avgCookie)
@@ -70,14 +42,33 @@ function Store(store, minCust, maxCust, avgCookie)
   this.minCust = minCust,
   this.maxCust = maxCust,
   this.avgCookie = avgCookie,
-  this.dailyTotals = []
+  this.dailyTotals = [],
+  allStores.push(this)
 }
 //============================== Functions ====================================
+
+//----------------------------------------------------------------------------------
+function createTable()            //function to create table
+{
+tableHeader();
+for(var i = 0; i < allStores.length; i++)
+{
+  allStores[i].tableData();
+}
+hourlyTotal();
+}
+//------------------------------------------------------------------------------------
+function rebuildTable()     //function to clear and rebuild table
+{
+  var table = document.getElementById('storeTable');
+  table.innerHTML = '';                            //replace everything at the id store in variable with emptyness
+  createTable();
+}
 function tableData() //function for filling table with cookie data
 {
   var cookieTotal = 0;
   var tempCookie = 0;
-  var table = document.getElementById("store table");
+  var table = document.getElementById("storeTable");
   var dataRow = document.createElement("tr");                     
   var dataCell = document.createElement("td");
   dataCell.textContent = this.store;
@@ -101,7 +92,7 @@ function tableData() //function for filling table with cookie data
 //-------------------------------------------------------------------------
 function tableHeader() //function for creating header with hours
 {
-  var table = document.getElementById("store table");
+  var table = document.getElementById("storeTable");
   var headerRow = document.createElement("tr");
   var headerCell = document.createElement("th");
   headerCell.textContent = "Store"; 
@@ -122,7 +113,7 @@ function tableHeader() //function for creating header with hours
 //-------------------------------------------------------------------------
 function hourlyTotal() //function to get hourly totals for table footer
 {
-  var table = document.getElementById("store table");
+  var table = document.getElementById("storeTable");
   var lastRow = document.createElement("tr");
   var totalCell = document.createElement("th");
   totalCell.textContent = "Totals:";
@@ -133,7 +124,7 @@ function hourlyTotal() //function to get hourly totals for table footer
   {
     var totalCell = document.createElement("th");
     
-    var totalForHour = seattle.dailyTotals[i]+ //next 3 line one line
+    var totalForHour = seattle.dailyTotals[i]+ //next 3 line one line ****condense into for loop *******
     tokyo.dailyTotals[i] + dubai.dailyTotals[i]+
     paris.dailyTotals[i] + lima.dailyTotals[i];
 
@@ -142,7 +133,7 @@ function hourlyTotal() //function to get hourly totals for table footer
   }
   var totalCell = document.createElement("th"); //adds up daily totals for all hours/store to get grand total
   
-  totalCell.textContent = getTotal(seattle.dailyTotals)+ // next 3 lines one line
+  totalCell.textContent = getTotal(seattle.dailyTotals)+ // next 3 lines one line   ***** condense into for loop ***
   getTotal(tokyo.dailyTotals) + getTotal(dubai.dailyTotals)+
   getTotal(paris.dailyTotals) + getTotal(lima.dailyTotals);
   
@@ -165,15 +156,10 @@ function randomCustomer(min, max) //function to create a random number between m
     var randomNum = Math.floor(Math.random() * (max - min) + min);
     return randomNum;
   }
-//======================================================================
-//Table creater
-tableHeader();
-seattle.tableData();
-tokyo.tableData();
-dubai.tableData();
-paris.tableData();
-lima.tableData();
-hourlyTotal();
+
+//=========================================================================
+
+createTable();
 
 
 
