@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var allStores = [];                                   
 var storeHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm','4pm', '5pm', '6pm', '7pm'];                                                
@@ -9,7 +9,6 @@ var lima = new Store('Lima', 2, 16, 4.6);
 var tokyo = new Store('Tokyo', 3, 24, 1.2);
 
 Store.prototype.tableData = tableData;
-//Store.prototype.newStore = newStoreForm;
 
 //========================= Loads new store to table on button click =================
 
@@ -30,7 +29,6 @@ var maxCustValue = maxCustInput.value;
 var avgCookieValue = parseFloat(avgCookieInput.value);
 
 var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
-
 rebuildTable()
 });
 
@@ -46,15 +44,14 @@ function Store(store, minCust, maxCust, avgCookie)
 }
 //============================== Functions ====================================
 
-//----------------------------------------------------------------------------------
 function createTable()                          //function to create table
 {
-tableHeader();                                  // header
-for(var i = 0; i < allStores.length; i++)       // fills table with data for each store
-{
-  allStores[i].tableData();                     // create data for store at i index of allStore array
-}    
-hourlyTotal();                                  //footer
+  tableHeader();                                  // header
+  for(var i = 0; i < allStores.length; i++)       // fills table with data for each store
+  {
+    allStores[i].tableData();                     // create data for store at i index of allStore array
+  }    
+  createFooter();                                  //footer
 }
 //------------------------------------------------------------------------------------
 function rebuildTable()                              //function to clear and rebuild table
@@ -67,8 +64,8 @@ function rebuildTable()                              //function to clear and reb
 function createCell(elId, rowType , cellType , theInput)
  {
   var targetId = document.getElementById(elId);              // find table
-  var createRow = document.createElement(rowType);        // create row
-  var createCell = document.createElement(cellType);      // create cell
+  var createRow = document.createElement(rowType);           // create row
+  var createCell = document.createElement(cellType);         // create cell
   createCell.textContent = theInput;
   createRow.appendChild(createCell);
 
@@ -77,21 +74,21 @@ function createCell(elId, rowType , cellType , theInput)
 //---------------------------------------------------------------------------
  function createAndAttach(row, cellType, content)
  {
-    var nextCell = document.createElement(cellType);
-    nextCell.textContent = content;
-    row.appendChild(nextCell);
+    var nextCell = document.createElement(cellType);       // create cell
+    nextCell.textContent = content;                        // fill cell
+    row.appendChild(nextCell);                             // append to row
  }
 //---------------------------------------------------------------------------------
 function tableHeader() //function for creating header with hours
 {
-  var table = createCell('storeTable','tr','th','store');
+  var table = createCell('storeTable','tr','th','store'); //create first cell of header row
  
   for( var i = 0; i < storeHours.length; i++)          // loop through storeHours array to fill cells w/hours
   {  
     createAndAttach(table[1], 'th', storeHours[i])
   }
-    createAndAttach(table[1], 'th', 'Totals');
-    table[0].appendChild(table[1]);                     // attach row to table
+  createAndAttach(table[1], 'th', 'Totals');
+  table[0].appendChild(table[1]);                     // attach row to table
 }
 //-----------------------------------------------------------------------------------
 function tableData()                         //function for filling table with cookie data
@@ -112,9 +109,9 @@ function tableData()                         //function for filling table with c
   table[0].appendChild(table[1]);                                 // attach row to table
 }
 //-----------------------------------------------------------------------------------------
-function hourlyTotal() //footer function to get hourly totals and creating table footer
+function createFooter() //footer function to get hourly totals and creating table footer
 {
-  var table = createCell('storeTable', 'tr', 'th', 'Totals');
+  var table = createCell('storeTable', 'tr', 'th', 'Totals'); //create first cell of footer
    
   for (var i = 0; i < storeHours.length; i++) //get total cookies from each store and each hour 
   {
