@@ -64,101 +64,77 @@ function rebuildTable()                              //function to clear and reb
   createTable();                                     // create new table
 }
 //-------------------------------------------------------------------------
-
-// non working function==================================================
-function createCell(targetId, rowType,cellType, theInput)
+function createCell(elId, rowType , cellType , theInput)
  {
-  //var targetId = document.getElementById(elId);              // find table
+  var targetId = document.getElementById(elId);              // find table
   var createRow = document.createElement(rowType);        // create row
   var createCell = document.createElement(cellType);      // create cell
   createCell.textContent = theInput;
   createRow.appendChild(createCell);
-  targetId.appendChild(createRow);
 
+  return [targetId, createRow, createCell];
  }
-
-
+//---------------------------------------------------------------------------
+ function createAndAttach(row, cellType, content)
+ {
+    var nextCell = document.createElement(cellType);
+    nextCell.textContent = content;
+    row.appendChild(nextCell);
+ }
+//---------------------------------------------------------------------------------
 function tableHeader() //function for creating header with hours
 {
-  
-  var table = document.getElementById('storeTable');  // find table
-  //createCell(table,'tr','th','store');
-  var headerRow = document.createElement('tr');       // create row
-  var headerCell = document.createElement('th');      // create cell
-
-  headerCell.textContent = 'Store';                   // add 'Store' text to cell
-  headerRow.appendChild(headerCell);                  // attach cell to row
-  
+  var table = createCell('storeTable','tr','th','store');
+ 
   for( var i = 0; i < storeHours.length; i++)          // loop through storeHours array to fill cells w/hours
   {  
-    var nextCell = document.createElement('th');      // create cell
-    nextCell.textContent = storeHours[i];             // fill cell with value in i index of storeHours array
-    headerRow.appendChild(nextCell);                  // attach cell to row
+    createAndAttach(table[1], 'th', storeHours[i])
   }
-    var totalCell = document.createElement('th');     // create cell
-    totalCell.textContent = 'Totals';                 // put text 'Totals' in last cell on header
-    headerRow.appendChild(totalCell);                 // attatch cell to row
-    table.appendChild(headerRow);                     // attach row to table
+    createAndAttach(table[1], 'th', 'Totals');
+    table[0].appendChild(table[1]);                     // attach row to table
 }
 //-----------------------------------------------------------------------------------
 function tableData()                         //function for filling table with cookie data
 {
   var cookieTotal = 0;                                        // keeps track of cookies sold all day
-  var tempCookie = 0;                                         // holds random number generated
-  var table = document.getElementById('storeTable');          // find table
-  var dataRow = document.createElement('tr');                 // create row
-  var dataCell = document.createElement('td');                // create cell
-  dataCell.textContent = this.store;                          // put store name in cell
-  dataRow.appendChild(dataCell);                              // attach to row
+  var tempCookie = 0; 
+  var table = createCell('storeTable', 'tr', 'td',this.store);     
 
   for(var i = 0; i < storeHours.length; i++)                  // for loop to fill each hour with sales        
   {
-    var nextCell = document.createElement('td');              // create cell
     tempCookie = Math.ceil(randomCustomer(this.minCust, this.maxCust) * this.avgCookie); //random number
-    nextCell.textContent = tempCookie;                        // puts random number in cell
     this.dailyTotals.push(tempCookie);                        // pushes random number to dailytotals array
-    dataRow.appendChild(nextCell);                            // attaches cell to row
     cookieTotal += tempCookie;                                // adds random number to cookie total
+    createAndAttach(table[1], 'td', tempCookie);
   }
 
-  var totalCell = document.createElement('th');               // create cell for day total
-  totalCell.textContent = cookieTotal;                        // put cookie total in cell
-  dataRow.appendChild(totalCell);                             // attach cell to row
-  table.appendChild(dataRow);                                 // attach row to table
+  createAndAttach(table[1],'th', cookieTotal);
+  table[0].appendChild(table[1]);                                 // attach row to table
 }
 //-----------------------------------------------------------------------------------------
 function hourlyTotal() //footer function to get hourly totals and creating table footer
 {
-  var table = document.getElementById('storeTable');                 // find table
-  var lastRow = document.createElement('tr');                        // create row
-  var totalCell = document.createElement('th');                             // create cell
-  totalCell.textContent = 'Totals:';                                 // put text in cell
-  lastRow.appendChild(totalCell);                                    // attach cell to row
-  
+  var table = createCell('storeTable', 'tr', 'th', 'Totals');
+   
   for (var i = 0; i < storeHours.length; i++) //get total cookies from each store and each hour 
   {
-    var totalCell = document.createElement('th');                   // create cell
-    
     var hourTotal = 0;                                              // var to hold and add each stores index value
     for (var j = 0; j < allStores.length; j++)                      // get index value for each hour from each store
     {
       var theStore = allStores[j];                                 // get store from allstore array
-      hourTotal += theStore.dailyTotals[i];                                             // get sales for that hour from dailytotals array
+      hourTotal += theStore.dailyTotals[i];                        // get sales for that hour from dailytotals array
     }
-    totalCell.textContent = hourTotal;                             // put total for hour from all stores in cell
-    lastRow.appendChild(totalCell);                                // attach cell
+    createAndAttach(table[1],'th', hourTotal);
   }
-  //**************** This cell doesn't get cleared by rebuild function?? **************************************** 
-  var totalCell = document.createElement('th');                    // create cell for total of all stores today
+  //**************** This cell doesn't get cleared by rebuild function?? ****************************************  
   var dayTotal = 0;                                                // var to hold total for all stores
   for (var k = 0; k < allStores.length; k++)                       // to loop through allstores array
   {
     var storeForDay = allStores[k];                                // get store from all store array
-    dayTotal += getTotal(storeForDay.dailyTotals);       // get daily total from dailyTotal array
+    dayTotal += getTotal(storeForDay.dailyTotals);                // get daily total from dailyTotal array
   }
-  totalCell.textContent = dayTotal;                                // place all stores daily total in cell
-  lastRow.appendChild(totalCell);                                  // attach cell to row
-  table.appendChild(lastRow);                                      // attach row to table
+  createAndAttach(table[1], 'th', dayTotal);
+  table[0].appendChild(table[1]);                                      // attach row to table
 }
 //--------------------------------------------------------------------
 function getTotal(array) //function to add up values in a array
