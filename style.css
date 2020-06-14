@@ -7,14 +7,12 @@ body{
   text-align: center;
 }
 main > section{
-  padding-left: 70px;
-
+  height: 175px;
+  background-image: url('img/frosted-cookie.jpg');
+  margin: auto;
+  background-repeat: round;
 }
 
-main > section > img{         
-  display: inline;
- 
-}
 main > img{
   border: solid black 5px;
   display: block;
@@ -23,11 +21,41 @@ main > img{
   width: 50%;
 }
 
-ul{
-  display: inline;
+p{
+  font-family: 'Balsamiq Sans', cursive;
 }
-#city{
+
+.word{
+  color: yellow;
+  font-family: 'Permanent Marker', cursive;
+  font-size: x-large;
+}
+
+div > #chinook{
+  border: solid black 3px;
+  height:299px;
+  width: 960px;
+}
+div > h3{
+  /* border: solid black 2px; */
+  height: 50px;
+  width: 960px;
+
+}
+
+div > ul > li{
+  display: inline-block;
+  height: 2px;
+  margin: 1px 10px;
+  width: 192px;
+}
+
+.city {
+  font-family: Arial, Helvetica, sans-serif;
   text-decoration: underline;
+  color: cyan;
+  text-emphasis: bold;
+
 }
 
 /* ============= Sales HTML ========== */
@@ -53,6 +81,7 @@ fieldset{
   width: 800px;
   padding: 5px;
   
+  
 }
 legend{
   border: 1px solid black;
@@ -63,11 +92,21 @@ form input{
   
 }
 label{
-  float: left
+  float: left;
   text-align: right;
 
 }
 button{
   float: right;
+}
+
+div > ul{
+  height: 200px;
+  width: 960px;
+  margin: auto;
+}
+
+div #bottomPics{
+  display: inline;
 }
 

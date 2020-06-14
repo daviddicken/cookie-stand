@@ -1,15 +1,14 @@
-'use strict'
+'use strict';
 
-var allStores = [];
-var storeHours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm","4pm", "5pm", "6pm", "7pm"];
-var seattle = new Store("Seattle", 23, 65, 6.5);
-var dubai = new Store("Dubai", 11, 38, 3.7);
-var paris = new Store("Paris", 20, 38, 2.3);
-var lima = new Store("Lima", 2, 16, 4.6);
-var tokyo = new Store("Tokyo", 3, 24, 1.2);
+var allStores = [];                                   
+var storeHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm','4pm', '5pm', '6pm', '7pm'];                                                
+var seattle = new Store('Seattle', 23, 65, 6.5);
+var dubai = new Store('Dubai', 11, 38, 3.7);
+var paris = new Store('Paris', 20, 38, 2.3);
+var lima = new Store('Lima', 2, 16, 4.6);
+var tokyo = new Store('Tokyo', 3, 24, 1.2);
 
 Store.prototype.tableData = tableData;
-Store.prototype.newStore = newStoreForm;
 
 //========================= Loads new store to table on button click =================
 
@@ -17,7 +16,6 @@ var newStoreForm = document.getElementById(storeForm);
 newStoreForm = document.addEventListener('submit', function newStore(event)
 {
 event.preventDefault();
-
 var theEvent = event;                     // sending event to a variable to be processed
 var theForm = theEvent.target;            // grabs data that was input
 var storeInput = theForm.storeName;       
@@ -28,10 +26,9 @@ var avgCookieInput = theForm.avgCookie;
 var storeValue = storeInput.value;
 var minCustValue = minCustInput.value;
 var maxCustValue = maxCustInput.value;
-var avgCookieValue = avgCookieInput.value;
+var avgCookieValue = parseFloat(avgCookieInput.value);
 
 var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
-
 rebuildTable()
 });
 
@@ -47,98 +44,94 @@ function Store(store, minCust, maxCust, avgCookie)
 }
 //============================== Functions ====================================
 
-//----------------------------------------------------------------------------------
-function createTable()            //function to create table
+function createTable()                          //function to create table
 {
-tableHeader();
-for(var i = 0; i < allStores.length; i++)
-{
-  allStores[i].tableData();
-}
-hourlyTotal();
+  tableHeader();                                  // header
+  for(var i = 0; i < allStores.length; i++)       // fills table with data for each store
+  {
+    allStores[i].tableData();                     // create data for store at i index of allStore array
+  }    
+  createFooter();                                  //footer
 }
 //------------------------------------------------------------------------------------
-function rebuildTable()     //function to clear and rebuild table
+function rebuildTable()                              //function to clear and rebuild table
 {
-  var table = document.getElementById('storeTable');
-  table.innerHTML = '';                            //replace everything at the id store in variable with emptyness
-  createTable();
-}
-function tableData() //function for filling table with cookie data
-{
-  var cookieTotal = 0;
-  var tempCookie = 0;
-  var table = document.getElementById("storeTable");
-  var dataRow = document.createElement("tr");                     
-  var dataCell = document.createElement("td");
-  dataCell.textContent = this.store;
-  dataRow.appendChild(dataCell);
-
-  for(var i = 0; i < storeHours.length; i++)
-  {
-    var nextCell = document.createElement("td");
-    tempCookie = Math.ceil(randomCustomer(this.minCust, this.maxCust) * this.avgCookie);
-    nextCell.textContent = tempCookie;
-    this.dailyTotals.push(tempCookie);
-    dataRow.appendChild(nextCell);
-    cookieTotal = cookieTotal + tempCookie;
-  }
-
-  var totalCell = document.createElement("th");
-  totalCell.textContent = cookieTotal;
-  dataRow.appendChild(totalCell);
-  table.appendChild(dataRow);
+  var table = document.getElementById('storeTable'); // find table by id
+  table.innerHTML = '';                              // replace table with emptyness // learned from TA Skyler
+  createTable();                                     // create new table
 }
 //-------------------------------------------------------------------------
+function createCell(elId, rowType , cellType , theInput)
+ {
+  var targetId = document.getElementById(elId);              // find table
+  var createRow = document.createElement(rowType);           // create row
+  var createCell = document.createElement(cellType);         // create cell
+  createCell.textContent = theInput;
+  createRow.appendChild(createCell);
+
+  return [targetId, createRow, createCell];
+ }
+//---------------------------------------------------------------------------
+ function createAndAttach(row, cellType, content)
+ {
+    var nextCell = document.createElement(cellType);       // create cell
+    nextCell.textContent = content;                        // fill cell
+    row.appendChild(nextCell);                             // append to row
+ }
+//---------------------------------------------------------------------------------
 function tableHeader() //function for creating header with hours
 {
-  var table = document.getElementById("storeTable");
-  var headerRow = document.createElement("tr");
-  var headerCell = document.createElement("th");
-  headerCell.textContent = "Store"; 
-  headerRow.appendChild(headerCell);
-  
-  for(var i = 0; i < storeHours.length; i++)
-  {  
-    var nextCell = document.createElement("th");
-    nextCell.textContent = storeHours[i];
-    headerRow.appendChild(nextCell);
-  }
-    var totalCell = document.createElement("th");
-    totalCell.textContent = "Totals";
-    headerRow.appendChild(totalCell);
-
-    table.appendChild(headerRow);
-}
-//-------------------------------------------------------------------------
-function hourlyTotal() //function to get hourly totals for table footer
-{
-  var table = document.getElementById("storeTable");
-  var lastRow = document.createElement("tr");
-  var totalCell = document.createElement("th");
-  totalCell.textContent = "Totals:";
-  lastRow.appendChild(totalCell);
-  table.appendChild(lastRow);
+  var table = createCell('storeTable','tr','th','store'); //create first cell of header row
  
-  for (var i =0; i < storeHours.length; i++) //gets the total cookies from each store for a single hour and adds 
-  {
-    var totalCell = document.createElement("th");
-    
-    var totalForHour = seattle.dailyTotals[i]+ //next 3 line one line ****condense into for loop *******
-    tokyo.dailyTotals[i] + dubai.dailyTotals[i]+
-    paris.dailyTotals[i] + lima.dailyTotals[i];
-
-    totalCell.textContent = totalForHour;
-    lastRow.appendChild(totalCell);
+  for( var i = 0; i < storeHours.length; i++)          // loop through storeHours array to fill cells w/hours
+  {  
+    createAndAttach(table[1], 'th', storeHours[i])
   }
-  var totalCell = document.createElement("th"); //adds up daily totals for all hours/store to get grand total
-  
-  totalCell.textContent = getTotal(seattle.dailyTotals)+ // next 3 lines one line   ***** condense into for loop ***
-  getTotal(tokyo.dailyTotals) + getTotal(dubai.dailyTotals)+
-  getTotal(paris.dailyTotals) + getTotal(lima.dailyTotals);
-  
-  lastRow.appendChild(totalCell);
-  table.appendChild(lastRow);
+  createAndAttach(table[1], 'th', 'Totals');
+  table[0].appendChild(table[1]);                     // attach row to table
+}
+//-----------------------------------------------------------------------------------
+function tableData()                         //function for filling table with cookie data
+{
+  var cookieTotal = 0;                                        // keeps track of cookies sold all day
+  var tempCookie = 0; 
+  var table = createCell('storeTable', 'tr', 'td',this.store);     
+
+  for(var i = 0; i < storeHours.length; i++)                  // for loop to fill each hour with sales        
+  {
+    tempCookie = Math.ceil(randomCustomer(this.minCust, this.maxCust) * this.avgCookie); //random number
+    this.dailyTotals.push(tempCookie);                        // pushes random number to dailytotals array
+    cookieTotal += tempCookie;                                // adds random number to cookie total
+    createAndAttach(table[1], 'td', tempCookie);
+  }
+
+  createAndAttach(table[1],'th', cookieTotal);
+  table[0].appendChild(table[1]);                                 // attach row to table
+}
+//-----------------------------------------------------------------------------------------
+function createFooter() //footer function to get hourly totals and creating table footer
+{
+  var table = createCell('storeTable', 'tr', 'th', 'Totals'); //create first cell of footer
+   
+  for (var i = 0; i < storeHours.length; i++) //get total cookies from each store and each hour 
+  {
+    var hourTotal = 0;                                              // var to hold and add each stores index value
+    for (var j = 0; j < allStores.length; j++)                      // get index value for each hour from each store
+    {
+      var theStore = allStores[j];                                 // get store from allstore array
+      hourTotal += theStore.dailyTotals[i];                        // get sales for that hour from dailytotals array
+    }
+    createAndAttach(table[1],'th', hourTotal);
+  }
+  //**************** This cell doesn't get cleared by rebuild function?? ****************************************  
+  var dayTotal = 0;                                                // var to hold total for all stores
+  for (var k = 0; k < allStores.length; k++)                       // to loop through allstores array
+  {
+    var storeForDay = allStores[k];                                // get store from all store array
+    dayTotal += getTotal(storeForDay.dailyTotals);                // get daily total from dailyTotal array
+  }
+  createAndAttach(table[1], 'th', dayTotal);
+  table[0].appendChild(table[1]);                                      // attach row to table
 }
 //--------------------------------------------------------------------
 function getTotal(array) //function to add up values in a array
@@ -146,52 +139,17 @@ function getTotal(array) //function to add up values in a array
   var total = 0;
   for (var i = 0; i < array.length; i++)
   {
-    total = total + array[i];
+    total += array[i];
   }
   return total;
 }
 //--------------------------------------------------------------------
 function randomCustomer(min, max) //function to create a random number between min and max inputs
   {
-    var randomNum = Math.floor(Math.random() * (max - min) + min);
+    var randomNum = Math.ceil(Math.random() * (max - min + 1) + min);
     return randomNum;
   }
 
 //=========================================================================
 
 createTable();
-
-
-
-
-
-//Make list function not used anymore but holding in case I need something from it before project is done
-//function makeList()
-// {
-//   var totalCookies = 0;
-//   for(var i = 0; i < this.amStoreHours.length; i++)
-//   {
-//     var  target = document.getElementById(this.store);
-//     var listItem = document.createElement('li');
-//     var amCookieCount = Math.ceil(randomCustomer(this.minCust, this.maxCust) * this.avgCookie);
-//     listItem.textContent = this.amStoreHours[i] + "am: " + amCookieCount + " cookies";
-//     target.appendChild(listItem);
-//     totalCookies = totalCookies + amCookieCount;
-//   }
-
-//   for(var i = 0; i < this.pmStoreHours.length; i++)
-//   {
-//     var  target = document.getElementById(this.store);
-//     var listItem = document.createElement('li');
-//     var pmCookieCount = Math.ceil(randomCustomer(this.minCust, this.maxCust) * this.avgCookie);
-//     listItem.textContent = this.pmStoreHours[i] + "pm: " + pmCookieCount  + " cookies";
-//     target.appendChild(listItem);
-//     totalCookies = totalCookies + pmCookieCount;
-//   }
-
-//   var  target = document.getElementById(this.store);
-//   var listItem = document.createElement('li');
-//   listItem.textContent = "Total: " + totalCookies + " cookies";
-//   target.appendChild(listItem);
-// }
-
