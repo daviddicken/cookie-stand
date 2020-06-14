@@ -49,6 +49,7 @@ function createTable()                          //function to create table
   tableHeader();                                  // header
   for(var i = 0; i < allStores.length; i++)       // fills table with data for each store
   {
+    allStores[i].dailyTotals = [];                //  clears daily totals left over from last build
     allStores[i].tableData();                     // create data for store at i index of allStore array
   }    
   createFooter();                                  //footer
@@ -115,23 +116,21 @@ function createFooter() //footer function to get hourly totals and creating tabl
    
   for (var i = 0; i < storeHours.length; i++) //get total cookies from each store and each hour 
   {
-    var hourTotal = 0;                                              // var to hold and add each stores index value
-    for (var j = 0; j < allStores.length; j++)                      // get index value for each hour from each store
+    var hourTotal = 0;                                        // var to hold and add each stores index value
+    for (var j = 0; j < allStores.length; j++)               // get index value for each hour from each store
     {
-      var theStore = allStores[j];                                 // get store from allstore array
-      hourTotal += theStore.dailyTotals[i];                        // get sales for that hour from dailytotals array
+      hourTotal += allStores[j].dailyTotals[i];             // get sales for that hour from dailytotals array
     }
     createAndAttach(table[1],'th', hourTotal);
   }
-  //**************** This cell doesn't get cleared by rebuild function?? ****************************************  
+    
   var dayTotal = 0;                                                // var to hold total for all stores
   for (var k = 0; k < allStores.length; k++)                       // to loop through allstores array
   {
-    var storeForDay = allStores[k];                                // get store from all store array
-    dayTotal += getTotal(storeForDay.dailyTotals);                // get daily total from dailyTotal array
+    dayTotal += getTotal(allStores[k].dailyTotals);                // get daily total from dailyTotal array
   }
   createAndAttach(table[1], 'th', dayTotal);
-  table[0].appendChild(table[1]);                                      // attach row to table
+  table[0].appendChild(table[1]);                                 // attach row to table
 }
 //--------------------------------------------------------------------
 function getTotal(array) //function to add up values in a array
