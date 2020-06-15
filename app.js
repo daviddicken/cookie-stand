@@ -11,8 +11,7 @@ var tokyo = new Store('Tokyo', 3, 24, 1.2);
 Store.prototype.tableData = tableData;
 
 //========================= Loads new store to table on button click =================
-
-var newStoreForm = document.getElementById(storeForm);
+var newStoreForm = document.getElementById('storeForm');
 newStoreForm = document.addEventListener('submit', function newStore(event)
 {
 event.preventDefault();
@@ -28,8 +27,16 @@ var minCustValue = minCustInput.value;
 var maxCustValue = maxCustInput.value;
 var avgCookieValue = parseFloat(avgCookieInput.value);
 
-var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
-rebuildTable()
+//check for input in all feilds
+if(storeValue === '' || minCustValue === '' || maxCustValue === '' || isNaN(avgCookieValue))
+{
+  alert('All feilds need input.') 
+}
+else
+{
+  var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
+  rebuildTable();
+}
 });
 
 //================== Contructors ====================================================
@@ -152,3 +159,4 @@ function randomCustomer(min, max) //function to create a random number between m
 //=========================================================================
 
 createTable();
+console.log('all stores.....' , allStores)
