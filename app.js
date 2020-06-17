@@ -36,7 +36,7 @@ else
 {
   var formStore = new Store(storeValue, minCustValue, maxCustValue, avgCookieValue);
   rebuildTable();
-}
+}                   
 });
 
 //================== Contructors ====================================================
@@ -91,7 +91,8 @@ function tableHeader() //function for creating header with hours
 {
   var table = createCell('storeTable','tr','th','store'); //create first cell of header row
  
-  for( var i = 0; i < storeHours.length; i++)          // loop through storeHours array to fill cells w/hours
+  //for( var i = 0; i < storeHours.length; i++)          // loop through storeHours array to fill cells w/hours
+  for( var i in storeHours)          // loop through storeHours array to fill cells w/hours
   {  
     createAndAttach(table[1], 'th', storeHours[i])
   }
@@ -160,3 +161,4 @@ function randomCustomer(min, max) //function to create a random number between m
 
 createTable();
 console.log('all stores.....' , allStores)
+
